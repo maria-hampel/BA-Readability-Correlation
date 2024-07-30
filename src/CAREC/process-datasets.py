@@ -7,7 +7,8 @@ import time
 import pandas as pd
 from datetime import datetime, timedelta
 
-API_KEY = "8159ae6da04b9c656f802b3db4053447"
+with open("api-key.txt", "r") as file:
+    API_KEY=file.read()
 API_URL = "https://nlp.gsu.edu/ping_api"
 SELECTION = ["ARI", "CAREC", "CAREC_M", "CML2RI", "FRE", "FKGL", "NDC", "SMOG", "SentenceBert"]
 DAILY_LIMIT = 1000
@@ -67,7 +68,7 @@ if __name__ == '__main__':
     processed_docs = state["processed_docs"]
     last_request_date = state["last_request_date"]
     last_doc_id = state["last_doc_id"]
-
+    found_lastdoc=False
     if last_request_date:
         last_request_date = datetime.strptime(last_request_date, '%Y-%m-%d').date()
     else:
@@ -87,8 +88,11 @@ if __name__ == '__main__':
     for doc in dataset.docs_iter():
         doc_id, text = doc.doc_id, doc.text
 
-        if last_doc_id and doc_id != last_doc_id:
-            continue  # Skip already processed documents
+        if last_doc_id and not found_lastdoc:
+            if doc_id != last_doc_id:
+                continue  
+            found_lastdoc=True
+            # Skip already processed documents
 
         if processed_docs >= DAILY_LIMIT:
             state["last_doc_id"] = doc_id

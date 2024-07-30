@@ -36,10 +36,9 @@ if __name__ == '__main__':
     dataset = ir.load('antique/test')
 
     # Read readability scores from CSV
-    readability_df = pd.read_csv("data/antique-test-20230107-training.csv")
+    readability_df = pd.read_csv("data/tira/antique-test-20230107-training.csv")
     readability_df = readability_df.rename(columns={"docno":"doc_id"})
-    readability_df = readability_df[['doc_id', 'flesch_reading_ease', 'flesch_kincaid_grade', 'smog', 'gunning_fog', 
-                                     'automated_readability_index', 'coleman_liau_index', 'lix', 'rix']]
+    # readability_df = readability_df[['doc_id', 'flesch_reading_ease', 'flesch_kincaid_grade', 'smog', 'gunning_fog', 'automated_readability_index', 'coleman_liau_index', 'lix', 'rix']]
 
     # Iterate through the dataset and process each document
     results = []
@@ -87,13 +86,53 @@ if __name__ == '__main__':
     correlations_mean = correlation_matrix.loc[readability_scores, mean_embedding_columns]
     correlations_last_token = correlation_matrix.loc[readability_scores, last_token_embedding_columns]
 
-    # # Visualize the correlations in a heatmap
-    # plt.figure(figsize=(15, 10))
-    # sns.heatmap(correlations_mean, annot=False, cmap='coolwarm')
-    # plt.title('Correlation Heatmap between GPT-2 Mean Embeddings and Readability Scores')
-    # plt.show()
+    plt.figure(figsize=(15, 10))
+    sns.set_theme(font_scale=0.5)
+    sns.heatmap(correlations_mean, annot=False, cmap='coolwarm', vmin=-1, vmax=1)
+    plt.title('Correlation Heatmap between GPT-2 Mean Embeddings and Readability Scores')
+    plt.savefig('data/visualizations/gpt_2/correlation_heatmap_mean_embeddings.pdf')
+    plt.close()
 
     plt.figure(figsize=(15, 10))
-    sns.heatmap(correlations_last_token, annot=False, cmap='coolwarm')
+    sns.set_theme(font_scale=0.5)
+    sns.heatmap(correlations_last_token, annot=False, cmap='coolwarm', vmin=-1, vmax=1)
     plt.title('Correlation Heatmap between GPT-2 Last Token Embeddings and Readability Scores')
-    plt.show()
+    plt.savefig('data/visualizations/gpt_2/correlation_heatmap_last_token_embeddings.pdf')
+    plt.close()
+
+    # Compute sum of absolute values of correlations for each row and each column
+    row_sums_mean = correlations_mean.abs().sum(axis=1)
+    col_sums_mean = correlations_mean.abs().sum(axis=0)
+
+    row_sums_last_token = correlations_last_token.abs().sum(axis=1)
+    col_sums_last_token = correlations_last_token.abs().sum(axis=0)
+
+    # Visualize the row sums in bar charts and save to directory
+    plt.figure(figsize=(15, 5))
+    row_sums_mean.plot(kind='bar')
+    plt.title('Sum of Absolute Values of Correlations for Each Readability Score (Mean Embeddings)')
+    plt.xticks(rotation=45, ha='right', fontsize=8)
+    plt.savefig('data/visualizations/gpt_2/row_sums_mean_embeddings.pdf')
+    plt.close()
+
+    plt.figure(figsize=(15, 5))
+    row_sums_last_token.plot(kind='bar')
+    plt.title('Sum of Absolute Values of Correlations for Each Readability Score (Last Token Embeddings)')
+    plt.xticks(rotation=45, ha='right', fontsize=8)
+    plt.savefig('data/visualizations/gpt_2/row_sums_last_token_embeddings.pdf')
+    plt.close()
+
+    # Visualize the column sums in bar charts and save to directory
+    plt.figure(figsize=(15, 5))
+    col_sums_mean.plot(kind='bar')
+    plt.title('Sum of Absolute Values of Correlations for Each Embedding Dimension (Mean Embeddings)')
+    plt.xticks(rotation=45, ha='right', fontsize=8)
+    plt.savefig('data/visualizations/gpt_2/col_sums_mean_embeddings.pdf')
+    plt.close()
+
+    plt.figure(figsize=(15, 5))
+    col_sums_last_token.plot(kind='bar')
+    plt.title('Sum of Absolute Values of Correlations for Each Embedding Dimension (Last Token Embeddings)')
+    plt.xticks(rotation=45, ha='right', fontsize=8)
+    plt.savefig('data/visualizations/gpt_2/col_sums_last_token_embeddings.pdf')
+    plt.close() 

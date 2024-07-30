@@ -33,7 +33,7 @@ if __name__ == '__main__':
     dataset = ir.load('antique/test')
 
     # Read readability scores from CSV
-    readability_df = pd.read_csv("data/antique-test-20230107-training.csv")
+    readability_df = pd.read_csv("data/tira/antique-test-20230107-training.csv")
     readability_df = readability_df.rename(columns={"docno":"doc_id"})
     # readability_df = readability_df[['doc_id', 'flesch_reading_ease', 'flesch_kincaid_grade', 'smog', 'gunning_fog', 
     #                                  'automated_readability_index', 'coleman_liau_index', 'lix', 'rix']]
@@ -85,6 +85,26 @@ if __name__ == '__main__':
 
     # Visualize the correlations in a heatmap
     plt.figure(figsize=(15, 10))
-    sns.heatmap(correlations, annot=False, cmap='coolwarm')
+    sns.set_theme(font_scale=0.5)
+    sns.heatmap(correlations, annot=False, cmap='coolwarm',vmin=-1, vmax=1)
     plt.title('Correlation Heatmap between RoBERTa Embeddings and Readability Scores')
-    plt.show()
+    plt.savefig('data/visualizations/roberta/correlation_heatmap_embeddings.pdf')
+    
+    
+    row_sums = correlations.abs().sum(axis=1)
+    col_sums = correlations.abs().sum(axis=0)
+    
+    plt.figure(figsize=(15, 5))
+    row_sums.plot(kind='bar')
+    plt.title('Sum of Absolute Values of Correlations for Each Readability Score')
+    plt.xticks(rotation=45, ha='right', fontsize=8)
+    plt.savefig('data/visualizations/roberta/row_sums_embeddings.pdf')
+    plt.close()
+
+    # Visualize the column sums in bar charts and save to directory
+    plt.figure(figsize=(15, 5))
+    col_sums.plot(kind='bar')
+    plt.title('Sum of Absolute Values of Correlations for Each Embedding Dimension')
+    plt.xticks(rotation=45, ha='right', fontsize=8)
+    plt.savefig('data/visualizations/roberta/col_sums_embeddings.pdf')
+    plt.close()
