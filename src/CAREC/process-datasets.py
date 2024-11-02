@@ -7,7 +7,7 @@ import time
 import pandas as pd
 from datetime import datetime, timedelta
 
-with open("api-key.txt", "r") as file:
+with open("api-key", "r") as file:
     API_KEY=file.read()
 API_URL = "https://nlp.gsu.edu/ping_api"
 SELECTION = ["ARI", "CAREC", "CAREC_M", "CML2RI", "FRE", "FKGL", "NDC", "SMOG", "SentenceBert"]
@@ -15,7 +15,7 @@ DAILY_LIMIT = 1000
 
 cwd = os.getcwd()
 
-dsname = "beir/arguana"
+dsname = "beir/scifact"
 dataset = ir_datasets.load(dsname)
 
 outputpath = os.path.join(cwd, "data/api", dsname.replace("/", "-"))
