@@ -9,7 +9,7 @@ import pandas as pd
 dsname = 'beir/arguana'
 datapath=os.path.join(os.getcwd(), 'data/transformer')
 
-model = AutoModel.from_pretrained('jinaai/jina-embeddings-v2-base-en', trust_remote_code=True) # trust_remote_code is needed to use the encode method
+model = AutoModel.from_pretrained('jinaai/jina-embeddings-v2-base-en', trust_remote_code=True) 
 
 
 def get_embeddings(text, model, ):

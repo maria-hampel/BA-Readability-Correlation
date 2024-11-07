@@ -102,7 +102,6 @@ train_losses = []
 val_losses = []
 
 for epoch in range(num_epochs):
-    # Training step
     model.train()
     running_loss = 0.0
     for embeddings, readability_category, _ in train_dataloader:
@@ -144,10 +143,9 @@ for epoch in range(num_epochs):
 
     print(f'Epoch [{epoch+1}/{num_epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}')
 
-# Create confusion matrix
+# Confusion Matrix
 conf_matrix = confusion_matrix(all_true_categories, all_predicted_categories)
 
-# Plot heatmap
 plt.figure(figsize=(10, 8))
 sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="YlGnBu", xticklabels=range(12), yticklabels=range(12))
 plt.xlabel('Predicted Category')

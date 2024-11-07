@@ -166,10 +166,10 @@ for score in SCORES:
 
         print(f'Epoch [{epoch+1}/{num_epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}')
 
-    # Create confusion matrix
+    # Confusion Matrix
     conf_matrix = confusion_matrix(all_true_categories, all_predicted_categories)
 
-    # Plot heatmap
+    
     plt.figure(figsize=(12, 10))
     sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="YlGnBu", xticklabels=range(12), yticklabels=range(12))
     plt.xlabel('Predicted Category')

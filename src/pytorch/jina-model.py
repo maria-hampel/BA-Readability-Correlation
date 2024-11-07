@@ -10,19 +10,10 @@ import os
 import gzip
 import numpy as np
 
-SCORES = ["flesch_reading_ease",
-          "flesch_kincaid_grade",
+SCORES = ["flesch_kincaid_grade",
           "smog",
-          "gunning_fog",
           "automated_readability_index",
-          "coleman_liau_index",
-          "lix","rix", "FRE.sc",
-          "FKGL.sc",
-          "ARI.sc",
-          "SMOG.sc",
-          "CAREC.sc",
-          "CAREC_M.sc",
-          "CML2RI.sc"]
+          "CAREC.sc",]
 
 cwd = os.getcwd()
 
@@ -191,48 +182,79 @@ for score in SCORES:
 
         print(f'Epoch [{epoch+1}/{num_epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Train MAE: {avg_train_mae:.4f}, Val MAE: {avg_val_mae:.4f}, Train R²: {avg_train_r2:.4f}, Val R²: {avg_val_r2:.4f}, Train Accuracy: {avg_train_accuracy:.2f}%, Val Accuracy: {avg_val_accuracy:.2f}%')
         
-    # Plotting the loss
-    plt.figure(figsize=(18,12))
-    plt.subplot(2, 2, 1)
-    plt.plot(range(1, num_epochs+1), train_losses, label='Training Loss')
-    plt.plot(range(1, num_epochs+1), val_losses, label='Validation Loss')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.title('Loss over Epochs')
-
-    # Plotting the accuracy (MAE)
-    plt.subplot(2, 2, 2)
-    plt.plot(range(1, num_epochs+1), train_mae, label='Training MAE')
-    plt.plot(range(1, num_epochs+1), val_mae, label='Validation MAE')
-    plt.xlabel('Epochs')
-    plt.ylabel('Mean Absolute Error (MAE)')
-    plt.legend()
-    plt.title('MAE over Epochs')
+    # MAE
+    df = pd.DataFrame(train_mae, columns=['train_mae'])
+    df['epochs']=range(1, num_epochs+1)
+    df['val_mae'] = val_mae
     
-    plt.subplot(2, 2, 3)
-    plt.plot(range(1, num_epochs+1), train_r2_scores, label='Training R²')
-    plt.plot(range(1, num_epochs+1), val_r2_scores, label='Validation R²')
-    plt.xlabel('Epochs')
-    plt.ylabel('R² Score')
-    plt.legend()
-    plt.title('R² Score over Epochs')
-    
-    # Plotting the accuracy as a percentage
-    plt.subplot(2, 2, 4)  
-    plt.plot(range(1, num_epochs+1), train_accuracies, label='Training Accuracy')
-    plt.plot(range(1, num_epochs+1), val_accuracies, label='Validation Accuracy')
-    plt.xlabel('Epochs')
-    plt.ylabel('Accuracy (%)')
-    plt.legend()
-    plt.title('Accuracy over Epochs')
-
-    plt.tight_layout()
-
-
-    visdir = os.path.join(cwd, 'data/torch/loss-vis-dropout/jina/')
+    visdir = os.path.join(cwd, 'data/torch/mae/jina/')
     os.makedirs(visdir, exist_ok=True)
-    plt.savefig(visdir+score+'.pdf')
+    
+    df.to_pickle(path=visdir+'data_'+score+'.pkl.gzip', compression='gzip')
+    
+    #Loss
+    df = pd.DataFrame(train_losses, columns=['train_losses'])
+    df['epochs']=range(1, num_epochs+1)
+    df['val_losses'] = val_losses
+    
+    visdir = os.path.join(cwd, 'data/torch/loss/jina/')
+    os.makedirs(visdir, exist_ok=True)
+    
+    df.to_pickle(path=visdir+'data_'+score+'.pkl.gzip', compression='gzip')
+   
+    # Accuraccy
+    df = pd.DataFrame(train_accuracies, columns=['train_acc'])
+    df['epochs']=range(1, num_epochs+1)
+    df['val_acc'] = val_accuracies
+    
+    visdir = os.path.join(cwd, 'data/torch/acc/jina/')
+    os.makedirs(visdir, exist_ok=True)
+    
+    df.to_pickle(path=visdir+'data_'+score+'.pkl.gzip', compression='gzip')
+    
+    
+    # # Plotting the loss
+    # plt.figure(figsize=(18,12))
+    # plt.subplot(2, 2, 1)
+    # plt.plot(range(1, num_epochs+1), train_losses, label='Training Loss')
+    # plt.plot(range(1, num_epochs+1), val_losses, label='Validation Loss')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('Loss')
+    # plt.legend()
+    # plt.title('Loss over Epochs')
+
+    # # Plotting the accuracy (MAE)
+    # plt.subplot(2, 2, 2)
+    # plt.plot(range(1, num_epochs+1), train_mae, label='Training MAE')
+    # plt.plot(range(1, num_epochs+1), val_mae, label='Validation MAE')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('Mean Absolute Error (MAE)')
+    # plt.legend()
+    # plt.title('MAE over Epochs')
+    
+    # plt.subplot(2, 2, 3)
+    # plt.plot(range(1, num_epochs+1), train_r2_scores, label='Training R²')
+    # plt.plot(range(1, num_epochs+1), val_r2_scores, label='Validation R²')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('R² Score')
+    # plt.legend()
+    # plt.title('R² Score over Epochs')
+    
+    # # Plotting the accuracy as a percentage
+    # plt.subplot(2, 2, 4)  
+    # plt.plot(range(1, num_epochs+1), train_accuracies, label='Training Accuracy')
+    # plt.plot(range(1, num_epochs+1), val_accuracies, label='Validation Accuracy')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('Accuracy (%)')
+    # plt.legend()
+    # plt.title('Accuracy over Epochs')
+
+    # plt.tight_layout()
+
+
+    # visdir = os.path.join(cwd, 'data/torch/loss-vis-dropout/jina/')
+    # os.makedirs(visdir, exist_ok=True)
+    # plt.savefig(visdir+score+'.pdf')
 
     modeldir = os.path.join(cwd, 'data/torch/models/jina' )
     os.makedirs(modeldir, exist_ok=True)

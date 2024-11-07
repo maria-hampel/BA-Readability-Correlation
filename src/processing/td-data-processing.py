@@ -55,11 +55,3 @@ if __name__ == "__main__":
     processed_documents = pd.concat([processed_dataset, processed_metrics], axis=1)
     processed_documents.to_json(output_file, lines=True, orient='records')
     print(processed_documents.head())
-    # for dsname in DATASETS:
-    #     dataset = ir_datasets.load(dsname)
-    #     output_dir = "./data/spacy/1024token"
-    #     output_file = Path(output_dir) / f'{dsname.replace("/", "-")}.jsonl.gz'
-    #     processed_dataset = process_dataset(dataset.docs_iter())
-    #     processed_metrics = process_metrics(dataset.docs_iter())
-    #     processed_documents = pd.concat([processed_dataset, processed_metrics], axis=1)
-    #     processed_documents.to_json(output_file, lines=True, orient='records')

@@ -130,7 +130,7 @@ for epoch in range(num_epochs):
 
     print(f'Epoch [{epoch+1}/{num_epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Train MAE: {avg_train_mae:.4f}, Val MAE: {avg_val_mae:.4f}')
 
-# Plotting the loss
+
 plt.figure(figsize=(12,6))
 plt.subplot(1, 2, 1)
 plt.plot(range(1, num_epochs+1), train_losses, label='Training Loss')
@@ -140,7 +140,6 @@ plt.ylabel('Loss')
 plt.legend()
 plt.title('Loss over Epochs')
 
-# Plotting the accuracy (MAE)
 plt.subplot(1, 2, 2)
 plt.plot(range(1, num_epochs+1), train_mae, label='Training MAE')
 plt.plot(range(1, num_epochs+1), val_mae, label='Validation MAE')

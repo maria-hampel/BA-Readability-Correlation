@@ -44,7 +44,6 @@ if __name__ == '__main__':
         cls_embedding, sep_embedding = get_cls_sep_embeddings(doc_text)
         combined_embedding = np.concatenate((cls_embedding, sep_embedding))
         #print(cls_embedding, sep_embedding)
-        # Store results
         results.append({
             'doc_id': doc_id,
             **{f'cls_{j}': cls_embedding[j].numpy() for j in range(cls_embedding.shape[0])},

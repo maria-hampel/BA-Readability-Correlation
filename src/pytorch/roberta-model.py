@@ -186,7 +186,7 @@ for score in SCORES:
 
         print(f'Epoch [{epoch+1}/{num_epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Train MAE: {avg_train_mae:.4f}, Val MAE: {avg_val_mae:.4f}, Train R²: {avg_train_r2:.4f}, Val R²: {avg_val_r2:.4f}, Train Accuracy: {avg_train_accuracy:.2f}%, Val Accuracy: {avg_val_accuracy:.2f}%')
         
-    # Plotting the loss
+    # Loss
     plt.figure(figsize=(18,12))
     plt.subplot(2, 2, 1)
     plt.plot(range(1, num_epochs+1), train_losses, label='Training Loss')
@@ -196,7 +196,7 @@ for score in SCORES:
     plt.legend()
     plt.title('Loss over Epochs')
 
-    # Plotting the accuracy (MAE)
+    # MAE
     plt.subplot(2, 2, 2)
     plt.plot(range(1, num_epochs+1), train_mae, label='Training MAE')
     plt.plot(range(1, num_epochs+1), val_mae, label='Validation MAE')
@@ -205,6 +205,7 @@ for score in SCORES:
     plt.legend()
     plt.title('MAE over Epochs')
     
+    # R2
     plt.subplot(2, 2, 3)
     plt.plot(range(1, num_epochs+1), train_r2_scores, label='Training R²')
     plt.plot(range(1, num_epochs+1), val_r2_scores, label='Validation R²')
@@ -213,7 +214,7 @@ for score in SCORES:
     plt.legend()
     plt.title('R² Score over Epochs')
     
-    # Plotting the accuracy as a percentage
+    # Accuracies
     plt.subplot(2, 2, 4)  
     plt.plot(range(1, num_epochs+1), train_accuracies, label='Training Accuracy')
     plt.plot(range(1, num_epochs+1), val_accuracies, label='Validation Accuracy')
