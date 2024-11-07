@@ -23,6 +23,7 @@ decorator==5.1.1
 Deprecated==1.2.14
 dill==0.3.8
 docker==7.1.0
+einops==0.8.0
 en-core-web-lg @ https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl#sha256=ab70aeb6172cde82508f7739f35ebc9918a3d07debeed637403c8f794ba3d3dc
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl#sha256=86cc141f63942d4b2c5fcee06630fd6f904788d2f0ab005cce45aadb8fb73889
 exceptiongroup==1.2.2
@@ -111,7 +112,7 @@ pyparsing==3.1.2
 pyphen==0.15.0
 PySocks==1.7.1
 python-dateutil==2.9.0.post0
-python-terrier==0.10.1
+python-terrier==0.11.0
 pytrec_eval-terrier==0.5.6
 pytz==2024.1
 PyYAML==6.0.1
@@ -136,6 +137,7 @@ srsly==2.4.8
 stack-data==0.6.3
 statsmodels==0.14.2
 sympy==1.13.1
+tabulate==0.9.0
 tb-nightly==2.18.0a20240730
 tensorboard==2.17.0
 tensorboard-data-server==0.7.2
